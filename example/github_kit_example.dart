@@ -4,55 +4,43 @@ void main() async {
   final gitHubKit = GitHubKit(token: 'your_github_token');
 
   try {
-    // List workflow runs
-    final runs = await gitHubKit.actions.listWorkflowRuns('octocat', 'Hello-World');
-    print('Recent workflow runs:');
-    for (var run in runs) {
-      print('- ${run['id']}: ${run['status']}');
-    }
+    // Repository operations
+    final repo = await gitHubKit.repositories.getRepository('octocat', 'Hello-World');
+    print('Repository: ${repo.fullName}');
 
-    // List packages for an organization
-    final packages = await gitHubKit.packages.listPackagesForOrg('github');
-    print('\nPackages in the github organization:');
-    for (var package in packages) {
-      print('- ${package['name']}');
-    }
+    // Issue operations
+    final issue = await gitHubKit.issues.createIssue('octocat', 'Hello-World', 'Test issue');
+    print('Created issue #${issue.number}');
 
-    // Create a webhook
-    final webhook = await gitHubKit.webhooks.createWebhook(
-      'octocat',
-      'Hello-World',
-      'https://example.com/webhook',
-      events: ['push', 'pull_request'],
-    );
-    print('\nCreated webhook: ${webhook['id']}');
+    // Pull Request operations
+    final prs = await gitHubKit.pullRequests.listPullRequests('octocat', 'Hello-World', state: 'open');
+    print('Open PRs: ${prs.length}');
 
-    // Execute a GraphQL query
-    final result = await gitHubKit.graphql('''
+    // Workflow operations
+    final workflows = await gitHubKit.actions.listWorkflows('octocat', 'Hello-World');
+    print('Workflows: ${workflows.length}');
+
+    // Code Scanning operations
+    final codeAlerts = await gitHubKit.codeScanning.listCodeScanningAlerts('octocat', 'Hello-World');
+    print('Code Scanning Alerts: ${codeAlerts.length}');
+
+    // Secret Scanning operations
+    final secretAlerts = await gitHubKit.secretScanning.listSecretScanningAlerts('octocat', 'Hello-World');
+    print('Secret Scanning Alerts: ${secretAlerts.length}');
+
+    // GraphQL query
+    final repoInfo = await gitHubKit.graphql('''
       query {
-        viewer {
-          login
-          repositories(first: 5) {
-            nodes {
-              name
-              stargazerCount
-            }
-          }
+        repository(owner: "octocat", name: "Hello-World") {
+          stargazerCount
         }
       }
     ''');
-    print('\nGraphQL query result:');
-    print('Logged in as: ${result['viewer']['login']}');
-    print('Top 5 repositories:');
-    for (var repo in result['viewer']['repositories']['nodes']) {
-      print('- ${repo['name']}: ${repo['stargazerCount']} stars');
-    }
+    print('Stars: ${repoInfo['repository']['stargazerCount']}');
 
   } catch (e) {
-    if (e is GitHubException) {
-      print('GitHub API Error: ${e.message} (Status: ${e.statusCode})');
-    } else {
-      print('Error: $e');
-    }
+    print('Error: $e');
+  } finally {
+    gitHubKit.dispose();
   }
 }
