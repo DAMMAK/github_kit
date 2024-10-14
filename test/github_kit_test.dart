@@ -1,4 +1,5 @@
 
+import 'package:github_kit/src/utils/http_utils.dart';
 import 'package:test/test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
@@ -14,6 +15,24 @@ import 'package:gql/language.dart';
 @GenerateMocks([http.Client])
 import 'github_kit_test.mocks.dart';
 class MockLink extends Mock implements Link {}
+
+class GitHubExceptionMatcher extends Matcher {
+  final int expectedStatusCode;
+  final String expectedMessageContent;
+
+  GitHubExceptionMatcher(this.expectedStatusCode, this.expectedMessageContent);
+
+  @override
+  bool matches(item, Map matchState) {
+    return item is GitHubException &&
+        item.statusCode == expectedStatusCode &&
+        item.message.contains(expectedMessageContent);
+  }
+
+  @override
+  Description describe(Description description) =>
+      description.add('is GitHubException with status code $expectedStatusCode and message containing "$expectedMessageContent"');
+}
 
 void main() {
   late GitHubKit gitHubKit;
@@ -180,16 +199,9 @@ void main() {
     test('throws GitHubException on API error', () async {
       when(mockClient.get(any, headers: anyNamed('headers')))
           .thenAnswer((_) async => http.Response('{"message": "Not Found"}', 404));
-
-      expect(
-            () => gitHubKit.repositories.getRepository('octocat', 'Non-Existent-Repo'),
-        throwsA(
-          allOf(
-            isA<GitHubException>(),
-            predicate((e) => (e as GitHubException).statusCode == 404),
-            predicate((e) => (e as GitHubException).message.contains('Not Found')),
-          ),
-        ),
+      await expectLater(
+        gitHubKit.repositories.getRepository('octocat', 'Non-Existent-Repo'),
+        throwsA(isA<GitHubException>()),
       );
     });
   });

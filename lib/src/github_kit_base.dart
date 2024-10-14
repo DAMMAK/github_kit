@@ -137,12 +137,3 @@ class GitHubKit {
 
 enum LogLevel { debug, info, warning, error }
 
-class GitHubException implements Exception {
-  final int statusCode;
-  final String message;
-
-  GitHubException(this.statusCode, this.message);
-
-  @override
-  String toString() => 'GitHubException: $statusCode - $message';
-}
