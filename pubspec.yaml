@@ -1,7 +1,7 @@
 name: github_kit
-description: "A new Flutter project."
-version: 0.0.1
-homepage:
+description: "GitHubKit is a comprehensive Dart package for interacting with the GitHub API. It provides an easy-to-use interface for common GitHub operations and supports advanced features like GitHub Actions, code scanning, and secret scanning."
+version: 1.0.0
+homepage: https://github.com/DAMMAK/github_kit
 
 environment:
   sdk: ^3.5.3
