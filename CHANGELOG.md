@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Improved error handling with custom GitHubException class
 
-## [1.0.0] - 2023-10-13
+## [1.0.0] - 2024-10-13
 
 ### Added
 - Initial release of GitHubKit
