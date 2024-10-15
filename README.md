@@ -1,8 +1,23 @@
 # GitHubKit
 
-[![Pub Version](https://img.shields.io/pub/v/github_kit.svg)](https://pub.dev/packages/github_kit)
-[![Build Status](https://travis-ci.org/yourusername/github_kit.svg?branch=master)](https://travis-ci.org/yourusername/github_kit)
-[![Coverage Status](https://coveralls.io/repos/github/yourusername/github_kit/badge.svg?branch=master)](https://coveralls.io/github/yourusername/github_kit?branch=master)
+[![MIT License][license-badge]][license-link]
+[![PRs Welcome][prs-badge]][prs-link]
+[![Watch on GitHub][github-watch-badge]][github-watch-link]
+[![Star on GitHub][github-star-badge]][github-star-link]
+[![Watch on GitHub][github-forks-badge]][github-forks-link]
+
+[license-badge]: https://img.shields.io/github/license/github_kit/gql.svg?style=for-the-badge
+[license-link]: https://github.com/DAMMAK/github_kit/blob/master/LICENSE
+[prs-badge]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=for-the-badge
+[prs-link]: https://github.com/DAMMAK/github_kit/issues
+
+[github-watch-badge]: https://img.shields.io/github/watchers/DAMMAK/github_kit.svg?style=for-the-badge&logo=github&logoColor=ffffff
+[github-watch-link]: https://github.com/DAMMAK/github_kit/watchers
+[github-star-badge]: https://img.shields.io/github/stars/DAMMAK/github_kit.svg?style=for-the-badge&logo=github&logoColor=ffffff
+[github-star-link]: https://github.com/DAMMAK/github_kit/stargazers
+[github-forks-badge]: https://img.shields.io/github/forks/DAMMAK/github_kit.svg?style=for-the-badge&logo=github&logoColor=ffffff
+[github-forks-link]: https://github.com/DAMMAK/github_kit/network/members
+
 
 GitHubKit is a comprehensive Dart package for interacting with the GitHub API. It provides an easy-to-use interface for common GitHub operations and supports advanced features like GitHub Actions, code scanning, and secret scanning.
 
@@ -11,14 +26,14 @@ GitHubKit is a comprehensive Dart package for interacting with the GitHub API. I
 - [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
-    - [Initialization](#initialization)
-    - [Repositories](#repositories)
-    - [Issues](#issues)
-    - [Pull Requests](#pull-requests)
-    - [GitHub Actions](#github-actions)
-    - [Code Scanning](#code-scanning)
-    - [Secret Scanning](#secret-scanning)
-    - [GraphQL API](#graphql-api)
+  - [Initialization](#initialization)
+  - [Repositories](#repositories)
+  - [Issues](#issues)
+  - [Pull Requests](#pull-requests)
+  - [GitHub Actions](#github-actions)
+  - [Code Scanning](#code-scanning)
+  - [Secret Scanning](#secret-scanning)
+  - [GraphQL API](#graphql-api)
 - [Error Handling](#error-handling)
 - [Pagination](#pagination)
 - [Rate Limiting](#rate-limiting)
@@ -84,7 +99,7 @@ print('Created new repository: ${newRepo.fullName}');
 // List repositories
 final repos = await gitHubKit.repositories.listRepositories('octocat');
 for (var repo in repos) {
-  print('Repo: ${repo.name}');
+print('Repo: ${repo.name}');
 }
 ```
 
@@ -102,7 +117,7 @@ print('Issue title: ${fetchedIssue.title}');
 // List issues
 final issues = await gitHubKit.issues.listIssues('octocat', 'Hello-World', state: 'open');
 for (var issue in issues) {
-  print('Issue #${issue.number}: ${issue.title}');
+print('Issue #${issue.number}: ${issue.title}');
 }
 ```
 
@@ -120,7 +135,7 @@ print('PR title: ${fetchedPR.title}');
 // List pull requests
 final prs = await gitHubKit.pullRequests.listPullRequests('octocat', 'Hello-World', state: 'open');
 for (var pr in prs) {
-  print('PR #${pr.number}: ${pr.title}');
+print('PR #${pr.number}: ${pr.title}');
 }
 ```
 
@@ -130,7 +145,7 @@ for (var pr in prs) {
 // List workflows
 final workflows = await gitHubKit.actions.listWorkflows('octocat', 'Hello-World');
 for (var workflow in workflows) {
-  print('Workflow: ${workflow.name}');
+print('Workflow: ${workflow.name}');
 }
 
 // Create a workflow dispatch event
@@ -144,7 +159,7 @@ print('Workflow dispatch created');
 // List code scanning alerts
 final alerts = await gitHubKit.codeScanning.listCodeScanningAlerts('octocat', 'Hello-World');
 for (var alert in alerts) {
-  print('Alert #${alert.number}: ${alert.state}');
+print('Alert #${alert.number}: ${alert.state}');
 }
 ```
 
@@ -154,7 +169,7 @@ for (var alert in alerts) {
 // List secret scanning alerts
 final secretAlerts = await gitHubKit.secretScanning.listSecretScanningAlerts('octocat', 'Hello-World');
 for (var alert in secretAlerts) {
-  print('Secret Alert #${alert.number}: ${alert.state}');
+print('Secret Alert #${alert.number}: ${alert.state}');
 }
 ```
 
@@ -183,14 +198,14 @@ GitHubKit uses custom exceptions for error handling. Always wrap your API calls 
 
 ```dart
 try {
-  final repo = await gitHubKit.repositories.getRepository('octocat', 'Hello-World');
-  print('Repository: ${repo.fullName}');
+final repo = await gitHubKit.repositories.getRepository('octocat', 'Hello-World');
+print('Repository: ${repo.fullName}');
 } catch (e) {
-  if (e is GitHubException) {
-    print('GitHub API Error: ${e.message} (Status: ${e.statusCode})');
-  } else {
-    print('Error: $e');
-  }
+if (e is GitHubException) {
+print('GitHub API Error: ${e.message} (Status: ${e.statusCode})');
+} else {
+print('Error: $e');
+}
 }
 ```
 

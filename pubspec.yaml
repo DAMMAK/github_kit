@@ -10,13 +10,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  http:
-  oauth2:
-  logging:
-  gql:
-  gql_link:
-  gql_http_link:
-  gql_exec:
+  http: 1.2.2
+  oauth2: 2.0.3
+  logging: 1.2.0
+  gql: 1.0.0+1
+  gql_link: 1.0.0+1
+  gql_http_link: 1.1.0
+  gql_exec: 1.0.0+1
+  args: ^2.6.0
 
 dev_dependencies:
   flutter_test:
