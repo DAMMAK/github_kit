@@ -1,6 +1,6 @@
 # GitHubKit
 
-[![MIT License][license-badge]][license-link]
+[![GitHub License][license-badge]][license-link]
 [![PRs Welcome][prs-badge]][prs-link]
 [![Watch on GitHub][github-watch-badge]][github-watch-link]
 [![Star on GitHub][github-star-badge]][github-star-link]
