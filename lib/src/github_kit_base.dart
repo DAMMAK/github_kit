@@ -52,30 +52,6 @@ class GitHubKit {
       secretScanning = SecretScanningApi(_sendRequest);
   }
 
-  // GitHubKit({
-  //   required this.token,
-  //   this.baseURL = 'https://api.github.com',
-  //   this.maxRetries = 3,
-  //   this.retryDelay = const Duration(seconds: 5),
-  //   http.Client? client,
-  //   Link? graphQLLink,
-  // }) {
-  //   _client = client ?? http.Client();
-  //   _setupLogging();
-  //   _graphQLLink = graphQLLink ?? HttpLink(
-  //     'https://api.github.com/graphql',
-  //     defaultHeaders: {
-  //       'Authorization': 'Bearer $token',
-  //     },
-  //   );
-  //   repositories = RepositoriesApi(_sendRequest);
-  //   issues = IssuesApi(_sendRequest);
-  //   pullRequests = PullRequestsApi(_sendRequest);
-  //   actions = ActionsApi(_sendRequest);
-  //   codeScanning = CodeScanningApi(_sendRequest);
-  //   secretScanning = SecretScanningApi(_sendRequest);
-  // }
-
   void _setupLogging() {
     Logger.root.level = Level.ALL;
     Logger.root.onRecord.listen((record) {
@@ -87,30 +63,7 @@ class GitHubKit {
     return HttpUtils.sendRequestWithRetry(_client, method, '$baseURL/$path', token, body: body, queryParams: queryParams, maxRetries: maxRetries, retryDelay: retryDelay);
   }
 
-  // Future<Map<String, dynamic>> graphql(String query, {Map<String, dynamic>? variables}) async {
-  //   final link = HttpLink(
-  //     'https://api.github.com/graphql',
-  //     defaultHeaders: {
-  //       'Authorization': 'Bearer $token',
-  //     },
-  //   );
-  //
-  //   final request = Request(
-  //     operation: Operation(document: parseString(query)),
-  //     variables: variables ?? {},
-  //   );
-  //
-  //   try {
-  //     final response = await link.request(request).first;
-  //     if (response.errors != null && response.errors!.isNotEmpty) {
-  //       throw GitHubException(400, response.errors!.map((e) => e.message).join(', '));
-  //     }
-  //     return response.data ?? {};
-  //   } catch (e) {
-  //     _logger.severe('GraphQL query failed: $e');
-  //     rethrow;
-  //   }
-  // }
+
 
   Future<Map<String, dynamic>> graphql(String query, {Map<String, dynamic>? variables}) async {
     final request = Request(
