@@ -1,5 +1,5 @@
 name: github_kit
-description: "GitHubKit is a comprehensive Dart package for interacting with the GitHub API. It provides an easy-to-use interface for common GitHub operations and supports advanced features like GitHub Actions, code scanning, and secret scanning."
+description: "GitHubKit is a comprehensive Dart package for interacting with the GitHub API."
 version: 1.0.0
 homepage: https://github.com/DAMMAK/github_kit
 
@@ -10,13 +10,13 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  http: 1.2.2
-  oauth2: 2.0.3
-  logging: 1.2.0
-  gql: 1.0.0+1
-  gql_link: 1.0.0+1
-  gql_http_link: 1.1.0
-  gql_exec: 1.0.0+1
+  http: ^1.2.2
+  oauth2: ^2.0.3
+  logging: ^1.2.0
+  gql: ^1.0.0+1
+  gql_link: ^1.0.0+1
+  gql_http_link: ^1.1.0
+  gql_exec: ^1.0.0+1
   args: ^2.6.0
 
 dev_dependencies:

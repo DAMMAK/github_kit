@@ -3,22 +3,25 @@ import 'dart:convert';
 
 class HttpUtils {
   static Future<dynamic> sendRequestWithRetry(
-      http.Client client,
-      String method,
-      String url,
-      String token, {
-        Map<String, dynamic>? body,
-        Map<String, String>? queryParams,
-        int maxRetries = 3,
-        Duration retryDelay = const Duration(seconds: 5),
-      }) async {
+    http.Client client,
+    String method,
+    String url,
+    String token, {
+    Map<String, dynamic>? body,
+    Map<String, String>? queryParams,
+    int maxRetries = 3,
+    Duration retryDelay = const Duration(seconds: 5),
+  }) async {
     int retries = 0;
     while (true) {
       try {
-        final response = await sendRequest(client, method, url, token, body: body, queryParams: queryParams);
+        final response = await sendRequest(client, method, url, token,
+            body: body, queryParams: queryParams);
         return json.decode(response.body);
       } catch (e) {
-        if (e is GitHubException && e.statusCode == 403 && retries < maxRetries) {
+        if (e is GitHubException &&
+            e.statusCode == 403 &&
+            retries < maxRetries) {
           retries++;
           await Future.delayed(retryDelay);
         } else {
@@ -29,13 +32,13 @@ class HttpUtils {
   }
 
   static Future<http.Response> sendRequest(
-      http.Client client,
-      String method,
-      String url,
-      String token, {
-        Map<String, dynamic>? body,
-        Map<String, String>? queryParams,
-      }) async {
+    http.Client client,
+    String method,
+    String url,
+    String token, {
+    Map<String, dynamic>? body,
+    Map<String, String>? queryParams,
+  }) async {
     final uri = Uri.parse(url).replace(queryParameters: queryParams);
     final headers = {
       'Authorization': 'token $token',
@@ -48,13 +51,16 @@ class HttpUtils {
         response = await client.get(uri, headers: headers);
         break;
       case 'POST':
-        response = await client.post(uri, headers: headers, body: json.encode(body));
+        response =
+            await client.post(uri, headers: headers, body: json.encode(body));
         break;
       case 'PATCH':
-        response = await client.patch(uri, headers: headers, body: json.encode(body));
+        response =
+            await client.patch(uri, headers: headers, body: json.encode(body));
         break;
       case 'PUT':
-        response = await client.put(uri, headers: headers, body: json.encode(body));
+        response =
+            await client.put(uri, headers: headers, body: json.encode(body));
         break;
       case 'DELETE':
         response = await client.delete(uri, headers: headers);
