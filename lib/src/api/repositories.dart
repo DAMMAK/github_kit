@@ -16,6 +16,9 @@ class RepositoriesApi {
       'name': name,
       'private': private,
       if (description != null) 'description': description,
+      'headers': {
+        'X-GitHub-Api-Version': '2022-11-28'
+      }
     });
     return Repository.fromJson(json);
   }
