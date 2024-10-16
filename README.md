@@ -6,7 +6,7 @@
 [![Star on GitHub][github-star-badge]][github-star-link]
 [![Watch on GitHub][github-forks-badge]][github-forks-link]
 
-[license-badge]: https://img.shields.io/github/license/github_kit/gql.svg?style=for-the-badge
+[license-badge]: https://img.shields.io/github/license/DAMMAK/github_kit.svg?style=for-the-badge
 [license-link]: https://github.com/DAMMAK/github_kit/blob/master/LICENSE
 [prs-badge]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=for-the-badge
 [prs-link]: https://github.com/DAMMAK/github_kit/issues
