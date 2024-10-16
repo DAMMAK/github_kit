@@ -1,19 +1,15 @@
-
-import 'package:github_kit/src/utils/http_utils.dart';
-import 'package:test/test.dart';
-import 'package:mockito/mockito.dart';
-import 'package:mockito/annotations.dart';
-import 'package:http/http.dart' as http;
 import 'package:github_kit/github_kit.dart';
+import 'package:github_kit/src/utils/http_utils.dart';
 import 'package:gql_link/gql_link.dart';
-import 'package:gql_exec/gql_exec.dart';
-import 'package:gql/language.dart';
-
-
+import 'package:http/http.dart' as http;
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
+import 'package:test/test.dart';
 
 // Generate a Mock class for http.Client
 @GenerateMocks([http.Client])
 import 'github_kit_test.mocks.dart';
+
 class MockLink extends Mock implements Link {}
 
 class GitHubExceptionMatcher extends Matcher {
@@ -30,8 +26,8 @@ class GitHubExceptionMatcher extends Matcher {
   }
 
   @override
-  Description describe(Description description) =>
-      description.add('is GitHubException with status code $expectedStatusCode and message containing "$expectedMessageContent"');
+  Description describe(Description description) => description.add(
+      'is GitHubException with status code $expectedStatusCode and message containing "$expectedMessageContent"');
 }
 
 void main() {
@@ -42,21 +38,24 @@ void main() {
   setUp(() {
     mockClient = MockClient();
     mockLink = MockLink();
-    gitHubKit = GitHubKit(token: 'test_token', client: mockClient,graphQLLink: mockLink);
+    gitHubKit = GitHubKit(
+        token: 'test_token', client: mockClient, graphQLLink: mockLink);
 
     // // Mock the GraphQL link to return an empty result
     // when(mockLink.request(any)).thenAnswer((_) => Stream.fromIterable([
     //   Response(data: {}, response: {})
     // ]));
-
   });
 
   group('RepositoriesApi', () {
     test('getRepository returns a repository', () async {
-      when(mockClient.get(any, headers: anyNamed('headers')))
-          .thenAnswer((_) async => http.Response('{"id": 1, "name": "Hello-World", "full_name": "octocat/Hello-World", "private": false}', 200));
+      when(mockClient.get(any, headers: anyNamed('headers'))).thenAnswer(
+          (_) async => http.Response(
+              '{"id": 1, "name": "Hello-World", "full_name": "octocat/Hello-World", "private": false}',
+              200));
 
-      final repo = await gitHubKit.repositories.getRepository('octocat', 'Hello-World');
+      final repo =
+          await gitHubKit.repositories.getRepository('octocat', 'Hello-World');
 
       expect(repo.id, equals(1));
       expect(repo.name, equals('Hello-World'));
@@ -65,10 +64,14 @@ void main() {
     });
 
     test('createRepository creates a new repository', () async {
-      when(mockClient.post(any, headers: anyNamed('headers'), body: anyNamed('body')))
-          .thenAnswer((_) async => http.Response('{"id": 1, "name": "New-Repo", "full_name": "octocat/New-Repo", "private": true}', 201));
+      when(mockClient.post(any,
+              headers: anyNamed('headers'), body: anyNamed('body')))
+          .thenAnswer((_) async => http.Response(
+              '{"id": 1, "name": "New-Repo", "full_name": "octocat/New-Repo", "private": true}',
+              201));
 
-      final repo = await gitHubKit.repositories.createRepository('New-Repo', private: true);
+      final repo = await gitHubKit.repositories
+          .createRepository('New-Repo', private: true);
 
       expect(repo.id, equals(1));
       expect(repo.name, equals('New-Repo'));
@@ -81,10 +84,14 @@ void main() {
 
   group('IssuesApi', () {
     test('createIssue creates a new issue', () async {
-      when(mockClient.post(any, headers: anyNamed('headers'), body: anyNamed('body')))
-          .thenAnswer((_) async => http.Response('{"number": 1, "title": "Test Issue", "state": "open", "labels": []}', 201));
+      when(mockClient.post(any,
+              headers: anyNamed('headers'), body: anyNamed('body')))
+          .thenAnswer((_) async => http.Response(
+              '{"number": 1, "title": "Test Issue", "state": "open", "labels": []}',
+              201));
 
-      final issue = await gitHubKit.issues.createIssue('octocat', 'Hello-World', 'Test Issue');
+      final issue = await gitHubKit.issues
+          .createIssue('octocat', 'Hello-World', 'Test Issue');
 
       expect(issue.number, equals(1));
       expect(issue.title, equals('Test Issue'));
@@ -92,10 +99,12 @@ void main() {
     });
 
     test('getIssue returns an issue', () async {
-      when(mockClient.get(any, headers: anyNamed('headers')))
-          .thenAnswer((_) async => http.Response('{"number": 1, "title": "Test Issue", "state": "open"}', 200));
+      when(mockClient.get(any, headers: anyNamed('headers'))).thenAnswer(
+          (_) async => http.Response(
+              '{"number": 1, "title": "Test Issue", "state": "open"}', 200));
 
-      final issue = await gitHubKit.issues.getIssue('octocat', 'Hello-World', 1);
+      final issue =
+          await gitHubKit.issues.getIssue('octocat', 'Hello-World', 1);
 
       expect(issue.number, equals(1));
       expect(issue.title, equals('Test Issue'));
@@ -107,10 +116,14 @@ void main() {
 
   group('PullRequestsApi', () {
     test('createPullRequest creates a new pull request', () async {
-      when(mockClient.post(any, headers: anyNamed('headers'), body: anyNamed('body')))
-          .thenAnswer((_) async => http.Response('{"number": 1, "title": "New feature", "state": "open", "head": {"ref": "feature-branch"}, "base": {"ref": "main"}}', 201));
+      when(mockClient.post(any,
+              headers: anyNamed('headers'), body: anyNamed('body')))
+          .thenAnswer((_) async => http.Response(
+              '{"number": 1, "title": "New feature", "state": "open", "head": {"ref": "feature-branch"}, "base": {"ref": "main"}}',
+              201));
 
-      final pr = await gitHubKit.pullRequests.createPullRequest('octocat', 'Hello-World', 'New feature', 'feature-branch', 'main');
+      final pr = await gitHubKit.pullRequests.createPullRequest(
+          'octocat', 'Hello-World', 'New feature', 'feature-branch', 'main');
 
       expect(pr.number, equals(1));
       expect(pr.title, equals('New feature'));
@@ -119,16 +132,18 @@ void main() {
       expect(pr.base, equals('main'));
     });
 
-
     // Add more tests for PullRequestsApi
   });
 
   group('ActionsApi', () {
     test('listWorkflows returns a list of workflows', () async {
-      when(mockClient.get(any, headers: anyNamed('headers')))
-          .thenAnswer((_) async => http.Response('{"workflows": [{"id": 1, "name": "CI", "state": "active"}]}', 200));
+      when(mockClient.get(any, headers: anyNamed('headers'))).thenAnswer(
+          (_) async => http.Response(
+              '{"workflows": [{"id": 1, "name": "CI", "state": "active"}]}',
+              200));
 
-      final workflows = await gitHubKit.actions.listWorkflows('octocat', 'Hello-World');
+      final workflows =
+          await gitHubKit.actions.listWorkflows('octocat', 'Hello-World');
 
       expect(workflows, hasLength(1));
       expect(workflows[0].id, equals(1));
@@ -141,10 +156,13 @@ void main() {
 
   group('CodeScanningApi', () {
     test('listCodeScanningAlerts returns a list of alerts', () async {
-      when(mockClient.get(any, headers: anyNamed('headers')))
-          .thenAnswer((_) async => http.Response('[{"number": 1, "state": "open", "rule": {"id": "js/xss", "severity": "warning"}}]', 200));
+      when(mockClient.get(any, headers: anyNamed('headers'))).thenAnswer(
+          (_) async => http.Response(
+              '[{"number": 1, "state": "open", "rule": {"id": "js/xss", "severity": "warning"}}]',
+              200));
 
-      final alerts = await gitHubKit.codeScanning.listCodeScanningAlerts('octocat', 'Hello-World');
+      final alerts = await gitHubKit.codeScanning
+          .listCodeScanningAlerts('octocat', 'Hello-World');
 
       expect(alerts, hasLength(1));
       expect(alerts[0].number, equals(1));
@@ -158,10 +176,13 @@ void main() {
 
   group('SecretScanningApi', () {
     test('listSecretScanningAlerts returns a list of alerts', () async {
-      when(mockClient.get(any, headers: anyNamed('headers')))
-          .thenAnswer((_) async => http.Response('[{"number": 1, "state": "open", "secret_type": "github_token"}]', 200));
+      when(mockClient.get(any, headers: anyNamed('headers'))).thenAnswer(
+          (_) async => http.Response(
+              '[{"number": 1, "state": "open", "secret_type": "github_token"}]',
+              200));
 
-      final alerts = await gitHubKit.secretScanning.listSecretScanningAlerts('octocat', 'Hello-World');
+      final alerts = await gitHubKit.secretScanning
+          .listSecretScanningAlerts('octocat', 'Hello-World');
 
       expect(alerts, hasLength(1));
       expect(alerts[0].number, equals(1));
@@ -197,8 +218,8 @@ void main() {
 
   group('Error Handling', () {
     test('throws GitHubException on API error', () async {
-      when(mockClient.get(any, headers: anyNamed('headers')))
-          .thenAnswer((_) async => http.Response('{"message": "Not Found"}', 404));
+      when(mockClient.get(any, headers: anyNamed('headers'))).thenAnswer(
+          (_) async => http.Response('{"message": "Not Found"}', 404));
       await expectLater(
         gitHubKit.repositories.getRepository('octocat', 'Non-Existent-Repo'),
         throwsA(isA<GitHubException>()),
@@ -213,13 +234,17 @@ void main() {
           .thenAnswer((_) async {
         callCount++;
         if (callCount < 3) {
-          return http.Response('{"message": "API rate limit exceeded"}', 403, headers: {'Retry-After': '1'});
+          return http.Response('{"message": "API rate limit exceeded"}', 403,
+              headers: {'Retry-After': '1'});
         } else {
-          return http.Response('{"id": 1, "name": "Hello-World", "full_name": "octocat/Hello-World", "private": false}', 200);
+          return http.Response(
+              '{"id": 1, "name": "Hello-World", "full_name": "octocat/Hello-World", "private": false}',
+              200);
         }
       });
 
-      final repo = await gitHubKit.repositories.getRepository('octocat', 'Hello-World');
+      final repo =
+          await gitHubKit.repositories.getRepository('octocat', 'Hello-World');
 
       expect(callCount, equals(3));
       expect(repo.id, equals(1));
